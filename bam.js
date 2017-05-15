@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var columnify = require('columnify');
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -18,8 +19,7 @@ var itemsArr = [];
 var menu = [];
 var selection;
 var x;
-var columnify = require('columnify')
-var columns = columnify(data, options)
+var columns;
 
 
 
@@ -34,7 +34,7 @@ var shop = function() {
 		if (err) throw (err);
 		console.log("");
 		console.log("");
-		console.log("ID" + "   |   " + "Name" + "   |   " + "Dept" + "   |   " + "Price");
+		console.log("ID" + "   |   " + "NAME" + "   |   " + "DEPT" + "   |   " + "PRICE");
 		for (var i = 0; i < results.length; i++) {
 
 			console.log(results[i].id + "  |  " + results[i].product_name + "  |  " + results[i].department_name + "   |   " + results[i].price);
@@ -42,16 +42,16 @@ var shop = function() {
 		console.log("");
 		console.log("");
 		
-		for (var i = 0; i < results.length; i++) {
-				itemsArr.push(
-				{
-					id: results[i].id,
-					name: results[i].product_name,
-					price: results[i].price,
-					stock: results[i].stock_quantity
-				}
-				);
-			}
+		// for (var i = 0; i < results.length; i++) {
+		// 		itemsArr.push(
+		// 		{
+		// 			id: results[i].id,
+		// 			name: results[i].product_name,
+		// 			price: results[i].price,
+		// 			stock: results[i].stock_quantity
+		// 		}
+		// 		);
+			
 		inquirer.prompt([
 		{
 		type: "input",
