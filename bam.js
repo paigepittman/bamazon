@@ -14,64 +14,111 @@ connection.connect(function(err) {
   if (err) throw err;
 });
 
+var itemsArr = [];
+var menu = [];
+var selection;
+var x;
+var columnify = require('columnify')
+var columns = columnify(data, options)
 
+
+
+console.log("-----------------------------------------------------");
+console.log("-----------------------------------------------------");
+console.log("                     BAMAZON                         ");
+console.log("-----------------------------------------------------");
+console.log("-----------------------------------------------------");
 
 var shop = function() {
 	connection.query("SELECT * FROM products", function(err, results) {
 		if (err) throw (err);
-		inquirer.prompt([
-		{
-		type: "rawlist",
-		name: "items",
-		choices: function() {
-			var itemsArr = [];
-			for (var i = 0; i < results.length; i++) {
+		console.log("");
+		console.log("");
+		console.log("ID" + "   |   " + "Name" + "   |   " + "Dept" + "   |   " + "Price");
+		for (var i = 0; i < results.length; i++) {
+
+			console.log(results[i].id + "  |  " + results[i].product_name + "  |  " + results[i].department_name + "   |   " + results[i].price);
+		}
+		console.log("");
+		console.log("");
+		
+		for (var i = 0; i < results.length; i++) {
 				itemsArr.push(
 				{
 					id: results[i].id,
-					name: results[i].product_name
-					price: results[i].price
+					name: results[i].product_name,
+					price: results[i].price,
+					stock: results[i].stock_quantity
 				}
 				);
 			}
-			return itemsArr;
+		inquirer.prompt([
+		{
+		type: "input",
+		name: "items",			
+		message: "Enter item number to purchase",
 		},
-		message: "Enter item number to purchase"
-	}
-	]).then(function(answer) {
-		var selection;
-		for (var i = 0; i < results.length; i++) {
-			if (results[i].stock_quantity > 0) {
-				inquirer.prompt([
-				{
-					type: "input",
-					name: "quantity",
-					message: "enter quantity",
-					validate: function(value) {
-				      if (isNaN(value) === false) {
-				        return true;
-				      }
-				      return false;
-					}
+		{
+		type: "input",
+		name: "quantity",
+		message: "enter quantity",
+			validate: function(value) {
+				if (isNaN(value) === false) {
+				    return true;
+				    // console.log("true");
 				}
-				]).then(function(num) {
-					var totalLeft = results[i].stock_quantity - parseInt(answer.quantity);
-					if (totalLeft >= 0) {
-						"your shopping cart has been updated!"
-					connection.query("UPDATE products SET ? WHERE ?", [{
-						stock_quantity: totalLeft
-					},{
-					id: selection.id
+				    return false;
+				    // console.log("false")
 					}
-					}
-					])
-					}
-					else 
-				}
-			}
 		}
-	}	
-	}
+	]).then(function(answer) {
+		console.log(answer.quantity);
+		x = answer.items - 1;
 
+			
+			if (results[x].stock_quantity < parseInt(answer.quantity)) {
+				// console.log("in stock: " selection)
+				console.log("Not enough in stock!");
+				console.log("");
+				console.log("---------------------------------------------------");
+				console.log("---------------------------------------------------");
+				console.log("");
+				console.log("continue shopping");
+				console.log("");
+				shop();
+			
+		}
+		if (results[x].stock_quantity > parseInt(answer.quantity)) {
+				var newQuantity = results[x].stock_quantity - answer.quantity
+			connection.query("UPDATE products SET ? WHERE ?", [{
+				stock_quantity: newQuantity
+			},{
+				id: x+1
+			}], function(error) {
+				if (error) throw err;
+				console.log("You shopping cart has been updated! Your total is " + results[x].price);
+				console.log("");
+				console.log("---------------------------------------------------");
+				console.log("---------------------------------------------------");
+				console.log("");
+				console.log("continue shopping");
+				console.log("");
+
+
+				shop();
+				}
+			);
+			
+		};
+	});
+				
+
+				});
+		}
+		
+		
 	
-}
+	
+
+shop();
+
