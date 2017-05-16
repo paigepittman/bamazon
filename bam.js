@@ -61,14 +61,13 @@ var shop = function() {
 			validate: function(value) {
 				if (isNaN(value) === false) {
 				    return true;
-				    console.log("true");
+				    
 				}
 				    return false;
-				    // console.log("false")
+				  
 					}
 		}
 	]).then(function(answer) {
-		console.log(answer.quantity);
 		x = answer.items - 1;
 
 			
@@ -85,7 +84,7 @@ var shop = function() {
 			
 		}
 		if (results[x].stock_quantity > parseInt(answer.quantity)) {
-			console.log("X is " + x);
+		
 				var newQuantity = results[x].stock_quantity - answer.quantity
 				connection.query("UPDATE products SET ? WHERE ?", [{
 				stock_quantity: newQuantity
