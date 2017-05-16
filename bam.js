@@ -85,8 +85,9 @@ var shop = function() {
 			
 		}
 		if (results[x].stock_quantity > parseInt(answer.quantity)) {
+			console.log("X is " + x);
 				var newQuantity = results[x].stock_quantity - answer.quantity
-			connection.query("UPDATE products SET ? WHERE ?", [{
+				connection.query("UPDATE products SET ? WHERE ?", [{
 				stock_quantity: newQuantity
 			},{
 				id: x+1
