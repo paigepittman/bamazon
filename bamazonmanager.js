@@ -11,6 +11,8 @@ var connection = mysql.createConnection({
   database: "bamazon_db"
 });
 
+var low = [];
+
 connection.connect(function(err) {
   if (err) throw err;
 });
@@ -21,53 +23,66 @@ console.log("                 BAMAZON MANAGER                     ");
 console.log("-----------------------------------------------------");
 console.log("-----------------------------------------------------");
 
-inquirer.prompt([
-{
-	type: "list",
-	name: "manage",
-	choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"],
-	message: "What would you like to do?"
-}]).then(function(response) {
-	switch (response.manage) {
-		case "View Products for Sale":
-		viewProducts();
-		break;
+manager();
 
-		case "View Low Inventory":
-		lowInventory();
-		break;
+function manager() {
+	inquirer.prompt([
+	{
+		type: "list",
+		name: "manage",
+		choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"],
+		message: "What would you like to do?"
+	}]).then(function(response) {
+		switch (response.manage) {
+			case "View Products for Sale":
+			viewProducts();
+			break;
 
-		case "Add to Inventory":
-		addInventory();
-		break;
+			case "View Low Inventory":
+			lowInventory();
+			break;
 
-		case "Add New Product":
-		newProduct();
-		break;
-	}
-});
+			case "Add to Inventory":
+			addInventory();
+			break;
 
-function viewProducts() {
-connection.query("SELECT * FROM products", function(err, results) {
-		if (err) throw (err);
-		console.log("");
-		console.log("");
-		console.log("ID" + "   |   " + "NAME" + "   |   " + "DEPT" + "   |   " + "PRICE" + "   |   " + "ON HAND INVENTORY");
-		for (var i = 0; i < results.length; i++) {
-
-			console.log(results[i].id + "  |  " + results[i].product_name + "  |  " + results[i].department_name + "   |   " + results[i].price + "   |   " + results[i].stock_quantity);
+			case "Add New Product":
+			newProduct();
+			break;
 		}
-		console.log("");
-		console.log("");
-		
-});
+	});
+};
+function viewProducts() {
+	connection.query("SELECT * FROM products", function(err, results) {
+			if (err) throw (err);
+			console.log("");
+			console.log("");
+			columns = columnify(results, {columnSplitter: '   |   '});
+			console.log(columns);
+			console.log("");
+			console.log("");
+			manager();				
+	});
 };
 
 function lowInventory() {
+	
+	connection.query("SELECT * FROM products", function(err, results) {
+		for (var i = 0; i < results.length; i++) {
+			if (results[i].stock_quantity < 5) {
+				low.push(results[i]);
+			}
+		}
+		columns = columnify(low,{columnSplitter: '     |     '})
+		console.log(columns);
+		console.log("");
+		manager(); 
+	});
 
 };
 
 function addInventory() {
+
 
 };
 

@@ -21,8 +21,17 @@ var selection;
 var x;
 var columns;
 
-
-
+var menu = function() {
+connection.query("SELECT * FROM products", function(err, results) {
+for (var i = 0; i < results.length; i++) {
+	itemsArr.push({
+				id: results[i].id,
+				name: results[i].product_name,
+				price: results[i].price,		
+			});
+		};
+	});
+};
 console.log("-----------------------------------------------------");
 console.log("-----------------------------------------------------");
 console.log("                     BAMAZON                         ");
@@ -31,26 +40,13 @@ console.log("-----------------------------------------------------");
 
 var shop = function() {
 	connection.query("SELECT * FROM products", function(err, results) {
-		if (err) throw (err);
+		if (err) throw (err);	
 		console.log("");
 		console.log("");
-		console.log("ID" + "   |   " + "NAME" + "   |   " + "DEPT" + "   |   " + "PRICE");
-		for (var i = 0; i < results.length; i++) {
-
-			console.log(results[i].id + "  |  " + results[i].product_name + "  |  " + results[i].department_name + "   |   " + results[i].price);
-		}
+		columns = columnify(itemsArr, {columnSplitter: '     |     '});
+		console.log(columns);
 		console.log("");
 		console.log("");
-		
-		// for (var i = 0; i < results.length; i++) {
-		// 		itemsArr.push(
-		// 		{
-		// 			id: results[i].id,
-		// 			name: results[i].product_name,
-		// 			price: results[i].price,
-		// 			stock: results[i].stock_quantity
-		// 		}
-		// 		);
 			
 		inquirer.prompt([
 		{
@@ -65,7 +61,7 @@ var shop = function() {
 			validate: function(value) {
 				if (isNaN(value) === false) {
 				    return true;
-				    // console.log("true");
+				    console.log("true");
 				}
 				    return false;
 				    // console.log("false")
@@ -96,7 +92,7 @@ var shop = function() {
 				id: x+1
 			}], function(error) {
 				if (error) throw err;
-				console.log("You shopping cart has been updated! Your total is " + results[x].price);
+				console.log("You shopping cart has been updated! Your total is $" + results[x].price);
 				console.log("");
 				console.log("---------------------------------------------------");
 				console.log("---------------------------------------------------");
@@ -119,6 +115,6 @@ var shop = function() {
 		
 	
 	
-
+menu();
 shop();
 
