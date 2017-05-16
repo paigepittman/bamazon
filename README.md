@@ -15,7 +15,7 @@ columnify
 
 run node bam.js to enter customer interface
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/main menu.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/main%20menu.png?raw=true)
 
 select items by ID to purchase
 
