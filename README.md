@@ -19,32 +19,32 @@ run node bam.js to enter customer interface
 
 select items by ID to purchase
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/shopping cart update.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/shopping%20cart%20update.png?raw=true)
 
 if quantity chosen is more than inventory level, customer is informed and is redirected to continue shopping
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/out of stock.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/out%20of%20stock.png?raw=true)
 
 run node bamazonmanager.js to enter manager interface
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/manager menu.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/manager%20menu.png?raw=true)
 
 select "View Products for Sale" to see all items in stock
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/view all.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/view%20all.png?raw=true)
 
 select "View Low Inventory" to view only items with inventory below 5
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/view low.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/view%20low.png?raw=true)
 
 select "Add to inventory to replenish low inventory"
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/add inv.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/add%20inv.png?raw=true)
 
 select "Add New Product" to add a new product to catalogue
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/add new.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/add%20new.png?raw=true)
 
 inventory levels and new item have been updated in database
 
-![alt text](/Users/paigepittman/Desktop/bamazon/images/updated.png)
+![alt text](https://github.com/paigepittman/bamazon/blob/master/images/updated.png?raw=true)
